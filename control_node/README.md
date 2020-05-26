@@ -3,7 +3,7 @@
 ## Setup
 
 ```
-# Buikd
+# Build
 docker build -f ./Dockerfile -t ansible/control_node:v1 .
 
 # Run
