@@ -8,8 +8,6 @@ services:
     build:
       context: control_node
       dockerfile: Dockerfile
-    ports:
-      - "8541:22"
 
   # First managed node
   first_managed_node:
@@ -20,6 +18,8 @@ services:
     build:
       context: managed_node
       dockerfile: Dockerfile
+      args:
+      - HOST_NAME:"first_managed_node"
 
   # Second managed node
   second_managed_node:
@@ -30,3 +30,5 @@ services:
     build:
       context: managed_node
       dockerfile: Dockerfile
+      args:
+      - HOST_NAME:"second_managed_node"
