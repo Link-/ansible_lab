@@ -6,8 +6,8 @@ services:
     container_name: control_node
     image: ansible/control_node:v1
     build:
-      context: .
-      dockerfile: control_node/Dockerfile
+      context: control_node
+      dockerfile: Dockerfile
 
   # First managed node
   first_managed_node:
@@ -16,8 +16,8 @@ services:
     depends_on:
       - control_node
     build:
-      context: .
-      dockerfile: managed_node/Dockerfile
+      context: managed_node
+      dockerfile: Dockerfile
 
   # Second managed node
   second_managed_node:
@@ -26,5 +26,5 @@ services:
     depends_on:
       - control_node
     build:
-      context: .
-      dockerfile: managed_node/Dockerfile
+      context: managed_node
+      dockerfile: Dockerfile
