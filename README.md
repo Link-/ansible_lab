@@ -23,4 +23,6 @@ Creating first_managed_node  ... done
 
 ```
 ansible all -i inventory --list-hosts
+
+ansible all -m command -a "echo hello!"
 ```
