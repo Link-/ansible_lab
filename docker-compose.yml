@@ -8,6 +8,8 @@ services:
     build:
       context: control_node
       dockerfile: Dockerfile
+    ports:
+      - "8541:22"
 
   # First managed node
   first_managed_node:
