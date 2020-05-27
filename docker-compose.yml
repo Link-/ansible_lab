@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  # Control node used to manage 
+  # the managed nodes
+  control_node:
+    container_name: control_node
+    image: ansible/control_node:v1
+    build:
+      context: .
+      dockerfile: control_node/Dockerfile
+
+  # First managed node
+  first_managed_node:
+    container_name: first_managed_node
+    image: ansible/managed_node:v1
+    depends_on:
+      - control_node
+    build:
+      context: .
+      dockerfile: managed_node/Dockerfile
+
+  # Second managed node
+  second_managed_node:
+    container_name: second_managed_node
+    image: ansible/managed_node:v1
+    depends_on:
+      - control_node
+    build:
+      context: .
+      dockerfile: managed_node/Dockerfile
