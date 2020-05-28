@@ -1,0 +1,7 @@
+---
+- name: test_debug
+  hosts: second_managed_node
+  tasks:
+  - name: first_task
+    debug:
+      msg: All works fine and dandy!

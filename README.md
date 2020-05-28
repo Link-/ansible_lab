@@ -56,6 +56,8 @@ Creating first_managed_node  ... done
 
 ### Sample Commands
 
+#### Run commands from the control_node
+You can go into the control_node container to execute commands on the managed nodes, or check the following sections for an alternative.
 ```
 # Go into the control node
 docker exec -ti control_node /bin/sh
@@ -63,7 +65,7 @@ docker exec -ti control_node /bin/sh
 # Execute Ansible commands
 ansible all -i inventory --list-hosts
 
-# Execute a shell command on all managed nodes
+# Execute a command on all managed nodes
 ansible all -m command -a "echo hello!"
 
 # Create user lina on managed node
@@ -74,9 +76,26 @@ ansible first_managed_node -m user -a "name=linda shell=/bin/bash"
 ansible first_managed_node -m shell -a "cat /etc/passwd"
 ```
 
-### Playbooks
+#### Run commands from host
+You don't have to go into the control_node container to execute commands on the managed nodes.
 
 ```
+# Execute a command on all managed nodes
+docker exec control_node ansible all -m command -a "echo hello!"
+
+# Fetch list of users on a managed node
+# the shell module allows you to use pipes
+docker exec control_node ansible first_managed_node -m shell -a "cat /etc/passwd"
+```
+
+### Playbooks
+
+#### Run commands from host
+You can run playbooks that are stored in the directory `src/playbooks`. You can add your own playbooks to the directory just make sure to rebuild the containers so that the files are copied to the control node.
+
+```
+# Run the demo playbook to test the setup
+docker exec control_node ansible-playbook playbooks/demo.yaml
 ```
 
 ---
