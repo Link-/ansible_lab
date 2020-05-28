@@ -1,7 +1,11 @@
 ---
 - name: test_debug
-  hosts: second_managed_node
+  hosts: all
   tasks:
   - name: first_task
     debug:
       msg: All works fine and dandy!
+  - name: Fetch IP addresses
+    debug:
+      msg: >
+        This host uses the IP: {{ ansible_facts.default_ipv4.address }}
