@@ -22,7 +22,10 @@ Creating first_managed_node  ... done
 ### Commands
 
 ```
-ansible all -i inventory --list-hosts
+# Go into the control node
+docker exec -ti control_node /bin/sh
 
+# Execute ansible commands
+ansible all -i inventory --list-hosts
 ansible all -m command -a "echo hello!"
 ```
