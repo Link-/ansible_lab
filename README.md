@@ -133,18 +133,32 @@ You can run playbooks that are stored in the directory `src/playbooks`. You can 
 docker exec control_node ansible-playbook playbooks/demo.yaml
 
 #> Output
+
 PLAY [test_debug] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [first_managed_node]
 ok: [second_managed_node]
 
 TASK [first_task] **************************************************************
+ok: [first_managed_node] => {
+    "msg": "All works fine and dandy!"
+}
 ok: [second_managed_node] => {
     "msg": "All works fine and dandy!"
 }
 
+TASK [Fetch IP addresses] ******************************************************
+ok: [first_managed_node] => {
+    "msg": "This host uses the IP: 172.19.0.4"
+}
+ok: [second_managed_node] => {
+    "msg": "This host uses the IP: 172.19.0.3"
+}
+
 PLAY RECAP *********************************************************************
-second_managed_node        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+first_managed_node         : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+second_managed_node        : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 
 ---
