@@ -117,9 +117,9 @@ ansible first_managed_node -m shell -a "cat /etc/passwd"
 
 ### Playbooks
 
-#### Run commands from host
 You can run playbooks that are stored in the directory `src/playbooks`. You can add your own playbooks to the directory just make sure to rebuild the containers so that the files are copied to the control node.
 
+#### src/playbooks/demo.yaml
 ```bash
 # Run the demo playbook to test the setup
 docker exec control_node ansible-playbook playbooks/demo.yaml
