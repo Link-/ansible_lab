@@ -56,9 +56,48 @@ Creating first_managed_node  ... done
 
 ### Sample Commands
 
+#### Run commands from host
+You don't have to go into the control_node container to execute commands on the managed nodes.
+
+```bash
+# Execute a command on all managed nodes
+docker exec control_node ansible all -m command -a "echo hello!"
+
+#> Output
+first_managed_node | CHANGED | rc=0 >>
+hello!
+second_managed_node | CHANGED | rc=0 >>
+hello!
+
+# Fetch list of users on a managed node
+# the shell module allows you to use pipes
+docker exec control_node ansible first_managed_node -m shell -a "cat /etc/passwd"
+
+#> Output
+first_managed_node | CHANGED | rc=0 >>
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+systemd-coredump:x:999:997:systemd Core Dumper:/:/sbin/nologin
+systemd-resolve:x:193:193:systemd Resolver:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+```
+
 #### Run commands from the control_node
 You can go into the control_node container to execute commands on the managed nodes, or check the following sections for an alternative.
-```
+
+```bash
 # Go into the control node
 docker exec -ti control_node /bin/sh
 
@@ -76,34 +115,34 @@ ansible first_managed_node -m user -a "name=linda shell=/bin/bash"
 ansible first_managed_node -m shell -a "cat /etc/passwd"
 ```
 
-#### Run commands from host
-You don't have to go into the control_node container to execute commands on the managed nodes.
-
-```
-# Execute a command on all managed nodes
-docker exec control_node ansible all -m command -a "echo hello!"
-
-# Fetch list of users on a managed node
-# the shell module allows you to use pipes
-docker exec control_node ansible first_managed_node -m shell -a "cat /etc/passwd"
-```
-
 ### Playbooks
 
 #### Run commands from host
 You can run playbooks that are stored in the directory `src/playbooks`. You can add your own playbooks to the directory just make sure to rebuild the containers so that the files are copied to the control node.
 
-```
+```bash
 # Run the demo playbook to test the setup
 docker exec control_node ansible-playbook playbooks/demo.yaml
+
+#> Output
+PLAY [test_debug] **************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [second_managed_node]
+
+TASK [first_task] **************************************************************
+ok: [second_managed_node] => {
+    "msg": "All works fine and dandy!"
+}
+
+PLAY RECAP *********************************************************************
+second_managed_node        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
 
 ---
 
 ## Caveats
-- In all the examples above I've been using the fish shell which varies slightly from bash
 - The above setup has only been tested on macOS
-- Multiple configurations can be automated and some are hardcoded like the ECR URL in the deployments and gulp files
 
 --- 
 
