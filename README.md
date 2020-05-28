@@ -34,6 +34,14 @@ This project is a combination of 2 containers running CentOS images that can be 
 9 directories, 14 files
 ```
 
+### Nodes
+
+#### Control Node
+This is mainly used to run modules and playbooks that are applied on the `managed nodes`. The `Dockerfile` is setup to copy all the files in `src` to `/app/src` inside the container. This control node also has the `private key: id_rsa` that is used to SSH into the managed nodes
+
+#### Managed Nodes
+There are 2 managed nodes containers that are spun up with `docker-compose` the: `first_managed_node` and `second_managed_node`. Both of these nodes have the `public key: id_rsa.pub` configured as an `authorized key` to allow the control node to SSH and execute ansible modules and playbooks inside these containers.
+
 ## Setup
 
 ```bash
