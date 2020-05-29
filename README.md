@@ -3,6 +3,10 @@
 
 This project is a combination of 2 containers running CentOS images that can be used to execute Ansible modules and playbooks. The containers come pre-loaded with all the needed packages and dependencies and the configuration is done so that you can access the `managed nodes` from the `control node`. More on this below.
 
+## Demo
+
+![Animated Demo](./_assets/demo.gif)
+
 ## Project Structure
 
 ```
