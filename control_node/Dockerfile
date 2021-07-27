@@ -18,7 +18,9 @@ RUN cp -f /app/src/ssh_config/sshd_config /etc/ssh/sshd_config
 RUN ssh-keygen -A
 # Move ssh_keys to the .ssh directory
 RUN mkdir -p ~/.ssh && \
-    mv /app/src/ssh_keys/id_rsa ~/.ssh/id_rsa
+    mv /app/src/ssh_keys/id_rsa ~/.ssh/id_rsa && \
+    chmod -R go= ~/.ssh && \
+    chmod 600 ~/.ssh/id_rsa
 
 # Expose SSH port
 EXPOSE 22
